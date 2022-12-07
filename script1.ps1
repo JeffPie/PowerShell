@@ -1,1 +1,1 @@
-Get-EXOMailbox
+#This is a test script
