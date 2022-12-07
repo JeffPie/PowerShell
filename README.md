@@ -1,5 +1,5 @@
 # PowerShell
-🌱This Repo contains different kinds of useful office management/automation PowerShell Scripts
+🌱This Repo contains useful Everyday Office Management/Automation PowerShell Scripts
 
 👀Probaly have Powershel GUI in the future?
 
