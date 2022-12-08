@@ -27,10 +27,11 @@ Function Do-Something
         This will output the logfile.
  
     .NOTES
-        Version: 0.1
-        Author: Lars Panzerbj�rn
-        Creation Date: 2020.05.12
-        Purpose/Change: Initial script development
+    Name:
+    Author: JeffPie
+    Version: 1.0
+    DataCreated: 08/12/2022
+    Purpose/Change: Initial script development
 #>
     [CmdletBinding(SupportsShouldProcess=$True,ConfirmImpact='Low')]
     param
