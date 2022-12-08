@@ -1,4 +1,10 @@
 function Connect-ExchangeOnline {
+<# .DESCRIPTION 
+    1. Access all mail-box by name search
+    2. Change Password
+    3. Set up autoreply
+    4. Get account policy
+#>
     <#
     .SYNOPSIS
         Function to Connect to an Exchange Online
@@ -51,7 +57,7 @@ function Connect-ExchangeOnline {
                 AllowRedirection  = $true
             }
             IF ($PSBoundParameters['Credential']) { $Splatting.Credential = $Credential }
-
+            
             # Load Exchange cmdlets (Implicit remoting)
             Import-PSSession -Session (New-PSSession @Splatting -ErrorAction Stop) -ErrorAction Stop
         }
