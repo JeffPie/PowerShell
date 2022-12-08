@@ -1,4 +1,3 @@
-#This is a test script
 Function Get-Something {
     <#
 .SYNOPSIS
@@ -17,13 +16,10 @@ Function Get-Something {
     Get-Something -ComputerName $value1 -Credential $value2
 
 .NOTES
-    Francois-Xavier Cat
-    lazywinadmin.github.io
-    lazywinadmin.com
-    @lazywinadmin
-
-    1.0 | 2016/00/00 | Francois-Xavier Cat
-        Initial Version
+    Name:
+    Author: JeffPie
+    Version: 1.0
+    DataCreated: 08/12/2022
 #>
     [CmdletBinding()]
     PARAM (
