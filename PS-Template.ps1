@@ -20,6 +20,7 @@ Function Get-Something {
     Author: JeffPie
     Version: 1.0
     DataCreated: 08/12/2022
+    Purpose/Change: Initial script development
 #>
     [CmdletBinding()]
     PARAM (
@@ -31,6 +32,7 @@ Function Get-Something {
         [pscredential]
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )#PARAM
+   
     TRY {
         $FunctionName = $MyInvocation.MyCommand.Name
 
@@ -51,7 +53,7 @@ Function Get-Something {
     CATCH {
         $PSCmdlet.ThrowTerminatingError($_)
     }#CATCH
-    FINALLY {
+    END {
         #Some Cleanup tasks
-    }#FINALLY
+    }#END
 }#Function
