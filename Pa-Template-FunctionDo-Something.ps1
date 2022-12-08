@@ -1,5 +1,5 @@
 ##From https://docs.microsoft.com/en-us/previous-versions/technet-magazine/hh360993(v=msdn.10)
-Function Do-Something
+Function Get-Something
 {
 <#
     .SYNOPSIS
