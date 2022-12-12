@@ -1,71 +1,76 @@
-function Connect-ExchangeOnline {
-<# .DESCRIPTION 
-    1. Access all mail-box by name search
-    2. Change Password
-    3. Set up autoreply
-    4. Get account policy
-#>
-    <#
+##From https://docs.microsoft.com/en-us/previous-versions/technet-magazine/hh360993(v=msdn.10)
+Function Get-Something
+{
+<#
     .SYNOPSIS
-        Function to Connect to an Exchange Online
-
+        Describe the function here
+ 
     .DESCRIPTION
-        Function to Connect to an Exchange Online
-
-    .PARAMETER ConnectionUri
-        Specifies the Connection Uri to use
-        Default is https://ps.outlook.com/powershell/
-
-    .PARAMETER Credential
-        Specifies the credential to use
-
+        Describe the function in more detail
+ 
     .EXAMPLE
-        PS C:\> Connect-ExchangeOnline
-
+        Give an example of how to use it
+ 
     .EXAMPLE
-        PS C:\> Connect-ExchangeOnline -Credential (Get-Credential)
-
+        Give another example of how to use it
+ 
+    .PARAMETER ComputerName
+        The Computer name to query. Just one.
+ 
+    .PARAMETER LogName
+        The name of a file to write failed Computer names to. Defaults to errors.txt.
+ 
+    .INPUTS
+        Input is from command line or called from a script.
+ 
+    .OUTPUTS
+        This will output the logfile.
+ 
     .NOTES
-        Francois-Xavier Cat
-        lazywinadmin.com
-        @lazywinadmin
-    .LINK
-        https://github.com/lazywinadmin/PowerShell
+    Name:
+    Author: JeffPie
+    Version: 1.0
+    DataCreated: 08/12/2022
+    Purpose/Change: Initial script development
 #>
-
+    [CmdletBinding(SupportsShouldProcess=$True,ConfirmImpact='Low')]
     param
     (
-        [system.string]$ConnectionUri = 'https://ps.outlook.com/powershell/',
-        [Parameter(Mandatory)]
-        [Alias('RunAs')]
-        [pscredential]
-        [System.Management.Automation.Credential()]
-        $Credential
-    )
-    PROCESS {
-        TRY {
-            # Make sure the credential username is something like admin@domain.com
-            if ($Credential.username -notlike '*@*') {
-                Write-Error 'Must be email format'
-                break
-            }
+        [Parameter(Mandatory,
+            ValueFromPipeline=$True,
+            ValueFromPipelineByPropertyName=$True,
+            HelpMessage='What Computer name would you like to target?')]
+        [Alias('host')]
+        [ValidateLength(3,30)]
+        [string[]]$ComputerName,
 
-            $Splatting = @{
-                ConnectionUri     = $ConnectionUri
-                ConfigurationName = 'microsoft.exchange'
-                Authentication    = 'Basic'
-                AllowRedirection  = $true
+        [string]$Logname = 'errors.txt'
+    )
+
+    BEGIN
+    {
+        Write-Verbose "Beginning $($MyInvocation.Mycommand)"
+        Write-Verbose "Deleting $Logname"
+        Remove-Item $LogName -ErrorActionSilentlyContinue
+    }
+
+    PROCESS
+    {
+        Write-Verbose "Processing $($MyInvocation.Mycommand)"
+
+        ForEach ($Computer in $ComputerName) {
+            Write-Verbose "Processing $Computer"
+            IF ($pscmdlet.ShouldProcess($Computer)) {
+                # use $Computer here
             }
-            IF ($PSBoundParameters['Credential']) { $Splatting.Credential = $Credential }
-            
-            # Load Exchange cmdlets (Implicit remoting)
-            Import-PSSession -Session (New-PSSession @Splatting -ErrorAction Stop) -ErrorAction Stop
-        }
-        CATCH {
-            $PSCmdlet.ThrowTerminatingError($_)
         }
     }
+    END
+    {
+        Write-Verbose "Ending $($MyInvocation.Mycommand)"
+    }
 }
+
 function disableMailbox($user){
 	Disable-Mailbox -Identity $user
 }

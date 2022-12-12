@@ -1,59 +1,65 @@
 Function Get-Something {
-    <#
-.SYNOPSIS
-    A brief description of the Get-Something function.
+<#
+    .SYNOPSIS
+        Describe the function here
+ 
+    .DESCRIPTION
+        Describe the function in more detail
+ 
+    .EXAMPLE
+        Give an example of how to use it
 
-.DESCRIPTION
-    A detailed description of the Get-Something function.
+    .PARAMETER ComputerName
+        A description of the ComputerName parameter.
 
-.PARAMETER ComputerName
-    A description of the ComputerName parameter.
+    .PARAMETER Credential
+        A description of the Credential parameter.
 
-.PARAMETER Credential
-    A description of the Credential parameter.
+    .EXAMPLE
+        Get-Something -ComputerName $value1 -Credential $value2
 
-.EXAMPLE
-    Get-Something -ComputerName $value1 -Credential $value2
-
-.NOTES
+    .NOTES
     Name:
     Author: JeffPie
     Version: 1.0
     DataCreated: 08/12/2022
     Purpose/Change: Initial script development
 #>
-    [CmdletBinding()]
-    PARAM (
-        [Alias("CN", "__SERVER", "PSComputerName")]
-        [String[]]$ComputerName = $env:COMPUTERNAME,
+    [CmdletBinding(SupportsShouldProcess=$True,ConfirmImpact='Low')]
+    PARAM
+    (
+        [Parameter(Mandatory,
+            ValueFromPipeline=$True,
+            ValueFromPipelineByPropertyName=$True,
+            HelpMessage='What Computer name would you like to target?')]
+        [Alias('host')]
+        [ValidateLength(3,30)]
+        [string[]]$ComputerName,
 
-        [Alias("RunAs")]
-        [System.Management.Automation.Credential()]
-        [pscredential]
-        $Credential = [System.Management.Automation.PSCredential]::Empty
+        [string]$Logname = 'errors.txt'
     )#PARAM
-   
-    TRY {
-        $FunctionName = $MyInvocation.MyCommand.Name
 
-
-        $Splatting = @{
-            ComputerName = $ComputerName
-        }
-
-        IF ($PSBoundParameters['Credential']) {
-            Write-Verbose -Message "[$FunctionName] Appending Credential"
-            $Splatting.Credential = $Credential
-        }
-
-        # MAIN CODE HERE
-        Write-Verbose -Message "[$FunctionName] Connect to..."
-
+    BEGIN
+    {
+        Write-Verbose "Beginning $($MyInvocation.Mycommand)"
+        Write-Verbose "Deleting $Logname"
+        Remove-Item $LogName -ErrorActionSilentlyContinuePS-Template.ps1
     }
-    CATCH {
-        $PSCmdlet.ThrowTerminatingError($_)
-    }#CATCH
-    END {
-        #Some Cleanup tasks
+
+    PROCESS
+    {
+        Write-Verbose "Processing $($MyInvocation.Mycommand)"
+
+        ForEach ($Computer in $ComputerName) {
+            Write-Verbose "Processing $Computer"
+            IF ($pscmdlet.ShouldProcess($Computer)) {
+                # use $Computer here
+            }
+        }
+    }
+    END
+    {
+        Write-Verbose "Ending $($MyInvocation.Mycommand)"#Some Cleanup tasks
     }#END
 }#Function
+
