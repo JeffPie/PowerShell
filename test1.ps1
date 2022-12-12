@@ -1,4 +1,4 @@
-Function Get-Something {
+Function disableMailbox {
 <#
     .SYNOPSIS
         Describe the function here
