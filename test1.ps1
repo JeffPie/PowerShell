@@ -1,6 +1,4 @@
-##From https://docs.microsoft.com/en-us/previous-versions/technet-magazine/hh360993(v=msdn.10)
-Function Get-Something
-{
+Function Get-Something {
 <#
     .SYNOPSIS
         Describe the function here
@@ -10,22 +8,16 @@ Function Get-Something
  
     .EXAMPLE
         Give an example of how to use it
- 
-    .EXAMPLE
-        Give another example of how to use it
- 
+
     .PARAMETER ComputerName
-        The Computer name to query. Just one.
- 
-    .PARAMETER LogName
-        The name of a file to write failed Computer names to. Defaults to errors.txt.
- 
-    .INPUTS
-        Input is from command line or called from a script.
- 
-    .OUTPUTS
-        This will output the logfile.
- 
+        A description of the ComputerName parameter.
+
+    .PARAMETER Credential
+        A description of the Credential parameter.
+
+    .EXAMPLE
+        Get-Something -ComputerName $value1 -Credential $value2
+
     .NOTES
     Name:
     Author: JeffPie
@@ -34,7 +26,7 @@ Function Get-Something
     Purpose/Change: Initial script development
 #>
     [CmdletBinding(SupportsShouldProcess=$True,ConfirmImpact='Low')]
-    param
+    PARAM
     (
         [Parameter(Mandatory,
             ValueFromPipeline=$True,
@@ -45,13 +37,13 @@ Function Get-Something
         [string[]]$ComputerName,
 
         [string]$Logname = 'errors.txt'
-    )
+    )#PARAM
 
     BEGIN
     {
         Write-Verbose "Beginning $($MyInvocation.Mycommand)"
         Write-Verbose "Deleting $Logname"
-        Remove-Item $LogName -ErrorActionSilentlyContinue
+        Remove-Item $LogName -ErrorActionSilentlyContinuePS-Template.ps1
     }
 
     PROCESS
@@ -67,10 +59,9 @@ Function Get-Something
     }
     END
     {
-        Write-Verbose "Ending $($MyInvocation.Mycommand)"
-    }
-}
-
+        Write-Verbose "Ending $($MyInvocation.Mycommand)"#Some Cleanup tasks
+    }#END
+}#Function
 function disableMailbox($user){
 	Disable-Mailbox -Identity $user
 }
@@ -101,3 +92,4 @@ while ($a -eq 1) {
 		}
 	}
 }
+
