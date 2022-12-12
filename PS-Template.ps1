@@ -5,15 +5,6 @@ Function Get-Something {
  
     .DESCRIPTION
         Describe the function in more detail
- 
-    .EXAMPLE
-        Give an example of how to use it
-
-    .PARAMETER ComputerName
-        A description of the ComputerName parameter.
-
-    .PARAMETER Credential
-        A description of the Credential parameter.
 
     .EXAMPLE
         Get-Something -ComputerName $value1 -Credential $value2
