@@ -24,7 +24,6 @@ while ($a -eq 1) {
 				$usernameTobeDisabled = read-host "Please enter username to be disabled"
 				disableMailbox($usernameTobeDisabled)
 			}
-	
 		}
 	}
 } #Function
