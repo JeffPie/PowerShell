@@ -1,18 +1,12 @@
-$a=1
-while ($a -eq 1) {
-	Write-host "Welcome to Exchange Online PowerShell Silly Mode" 
-	#$username = Read-Host"Please input your username"
-	connect-exchangeonline 
+#Check for EXO V2 module installation 
+Write-host "Welcome to Exchange Online PowerShell Silly Mode! Checking if ExchangeOnline Module installed..."
 
-}
-
-<#Check for EXO V2 module installation 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
 if($Module.count -eq 0)  
 {  
   Write-Host Exchange Online PowerShell V2 module is not available  -ForegroundColor yellow   
   $Confirm= Read-Host Are you sure you want to install module? [Y] Yes [N] No  
-  if($Confirm -match "[Y]")  
+  if($Confirm -match "[yY]")  
   {  
    Write-host "Installing Exchange Online PowerShell module" 
    Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force 
@@ -23,17 +17,27 @@ if($Module.count -eq 0)
    Exit 
   } 
 } 
-Write-Host Connecting to Exchange Online... 
-Connect-ExchangeOnline #>
-<#
-=============================================================================================
-Name:           List all Exchange Online mailboxes users can access
-Version:        1.0
-Website:        m365scripts.com
-Script by:      M365Scripts Team
-For detailed script execution: https://m365scripts.com/exchange-online/URL Sluglist-exchange-online-mailboxes-user-has-access-using-powershell
-============================================================================================
-#>
+#Function 1 Connect to exchange online
+$a=1
+while ($a -eq 1) {
+	Write-host "To use Silly Mode you need to login your MS365 account" 
+	#$username = Read-Host"Please input your username"
+	$Confirm= Read-Host Do you want to login your ExchangeOnline [Y] Yes [N] No  
+ 		 if($Confirm -match "[yY]")  
+ 		 {  
+ 			 Write-host "Please put your Username & Password in the pop up window to login Exchange Online PowerShell module" 
+             Write-Host Connecting to Exchange Online...
+             Connect-ExchangeOnline 
+             $a = 2 
+ 		 }  
+ 		 else  
+ 		 {  
+  			 Write-Host '  Thank you for using PowerShell Silly Mode
+  	See you next time!'	 
+             $a = 2
+        } 
+}
+
 Param
 (
     [Parameter(Mandatory = $false)]
