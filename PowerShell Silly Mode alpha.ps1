@@ -55,7 +55,7 @@ Q.Quit`r`n"
 $selection = Read-host 'Please input the number of your selection'
 
     if ($selection -eq 1) {
-        Get-Mailbox
+        Get-Mailbox 
         $b = 1
     }
 
