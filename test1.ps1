@@ -1,5 +1,5 @@
 #Check for EXO V2 module installation 
-Write-host "Welcome to Exchange Online PowerShell Silly Mode! Checking if ExchangeOnline Module installed..."
+Write-host "Welcome to Exchange Online PowerShell Silly Mode! Checking if ExchangeOnline Module installed...`r`n"
 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
 if($Module.count -eq 0)  
@@ -13,11 +13,11 @@ if($Module.count -eq 0)
   }  
   else  
   {  
-   Write-Host EXO V2 module is required to connect Exchange Online.Please install module using Install-Module ExchangeOnlineManagement cmdlet.  
-   Exit 
+   Write-Host EXO V2 module is required to connect Exchange Online.Please install module to using ExchangeOnlineManagement cmdlet.  
+   
   } 
 } 
-#Function 1 Connect to exchange online
+#Connect to exchange online
 $a=1
 while ($a -eq 1) {
 	Write-host "To use Silly Mode you need to login your MS365 account" 
@@ -40,43 +40,35 @@ while ($a -eq 1) {
 }
 
 ### Main Funtion start from here
-Write-host'What can I do for you? 
-1.Disable a mail box`r`n 
-2.Enable Auto forwarding message.`r`n
-Q.Quit`r`n'
-$selection = Read-host Please input the number of your selection.
+Write-host"What can I do for you? `r`n
+1.Get-EXOCasMailbox`r`n
+2.Get-EXOMailbox`r`n
+3.Get-EXOMailboxStatistics`r`n
+4.Get-EXORecipientDisable a mail box`r`n 
+Q.Quit`r`n"
 
-while ($selection -eq 1) {
-    Write-host 
-	$selection = read-host "Select your action."
-	if($selection -eq 1) {
-		$username = read-host "Please input your username"
-		Connect-Exchangeonline -UserPrincipalName $username
-	}
-	
+$selection = Read-host 'Please input the number of your selection.'
+Function{
+    if ($selection -eq 1) {
+        Get-EXOCasMailbox
+    }
+
     if($selection -eq 2) {
-		$c = 1
-		while($c -eq 1){
-			write-host "1. Disable a mail box`r`n 2.Enable Auto forwarding message.`r`n3.Quit`r`n"
-			$sel = read-host "Please input your selection"
-			if($sel -eq "q"){
-				$c = 2
-			}
-			if($sel -eq "1"){
-				$usernameTobeDisabled = read-host "Please enter username to be disabled"
-				disableMailbox($usernameTobeDisabled)
-			}
-		}
+		$username = read-host "Please input your username"
+		Get-EXOMailbox -UserPrincipalName $username
+    }
+
+	if($selection -eq 3) {
+		Get-EXOMailboxStatistics
 	}
-    if($selection -eq 1) {
+
+    if($selection -eq 4) {
 		$username = read-host "Please input your username"
 		Connect-Exchangeonline -UserPrincipalName $username
-    } 
-    
+    }
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
         Write-Host "Disconnected active ExchangeOnline session"
-		exit
 	}
 }#Function
 
