@@ -34,10 +34,11 @@ while ($a -eq 1) {
  		 }  
  		 else  
  		 {   $a = 2
-             
-  			 Write-Host '  Thank you for using PowerShell Silly Mode
-  	See you next time!'	 
-             
+             $b = 0
+  			 while ($b -eq 0){
+             Write-Host '  Thank you for using PowerShell Silly Mode
+  	See you next time!'	 $b = 99
+             }
         } 
 }
 
@@ -51,7 +52,7 @@ Write-host "What can I do for you? `r`n
 4.List Inbox Rules`r`n 
 Q.Quit`r`n"
 
-$selection = Read-host 'Please input the number of your selection.'
+$selection = Read-host 'Please input the number of your selection'
 
     if ($selection -eq 1) {
         Get-Mailbox
@@ -71,8 +72,7 @@ $selection = Read-host 'Please input the number of your selection.'
 	}
 
     if($selection -eq 4) {
-        $username = read-host "Please input your username in format Firstname.Lastname " 
-		Get-InboxRule -Identity $username
+		Get-InboxRule 
         $b = 1
     }
     if($selection -match "[qQ]"){
