@@ -1,26 +1,26 @@
 #Check for EXO V2 module installation 
-Write-host "Welcome to Exchange Online PowerShell Silly Mode! Checking if ExchangeOnline Module installed...`r`n"
+Write-host ":) Welcome to Exchange Online PowerShell Silly Mode! Checking if ExchangeOnline Module installed...`r`n"
 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
-if($Module.count -eq 0)  
-{  
-  Write-Host Exchange Online PowerShell V2 module is not available  -ForegroundColor yellow   
-  $Confirm= Read-Host Are you sure you want to install module? [Y] Yes [N] No  
-  if($Confirm -match "[yY]")  
-  {  
-   Write-host "Installing Exchange Online PowerShell module" 
-   Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force 
-  }  
-  else  
-  {  
-   Write-Host EXO V2 module is required to connect Exchange Online.Please install module to using ExchangeOnlineManagement cmdlet.  
-   
-  } 
-} 
+if($Module.count -eq 0)  {  
+     Write-Host Exchange Online PowerShell V2 module is not available  -ForegroundColor yellow   
+    $Confirm= Read-Host Are you sure you want to install module? [Y] Yes [N] No  
+    if($Confirm -match "[yY]")  
+    {  
+     Write-host "Installing Exchange Online PowerShell module`r`n" 
+     Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force 
+     }  
+     else  
+     {  
+      Write-Host EXO V2 module is required to connect Exchange Online.Please install module to using ExchangeOnlineManagement cmdlet.  
+     } 
+}
+else { Write-Host 'Excellent! Looks like you are good to go!'`r`n}
+
 #Connect to exchange online
 $a=1
 while ($a -eq 1) {
-	Write-host "To use Silly Mode you need to login your MS365 account" 
+	Write-host "To use Silly Mode you need to login your MS365 account`r`n" 
 	#$username = Read-Host"Please input your username"
 	$Confirm= Read-Host Do you want to login your ExchangeOnline [Y] Yes [N] No  
  		 if($Confirm -match "[yY]")  
@@ -40,7 +40,7 @@ while ($a -eq 1) {
 }
 
 ### Main Funtion start from here
-Write-host"What can I do for you? `r`n
+Write-host "What can I do for you? `r`n
 1.Get-EXOCasMailbox`r`n
 2.Get-EXOMailbox`r`n
 3.Get-EXOMailboxStatistics`r`n
@@ -48,7 +48,7 @@ Write-host"What can I do for you? `r`n
 Q.Quit`r`n"
 
 $selection = Read-host 'Please input the number of your selection.'
-Function{
+
     if ($selection -eq 1) {
         Get-EXOCasMailbox
     }
@@ -70,7 +70,8 @@ Function{
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
         Write-Host "Disconnected active ExchangeOnline session"
 	}
-}#Function
+
+#Function
 
 <#
 function FullAccess {
