@@ -19,7 +19,7 @@ else { Write-Host 'Excellent! Looks like you are good to go!'`r`n}
 
 #Connect to exchange online
 $a = 1
-$b = 1
+
 while ($a -eq 1) {
 	Write-host "To use Silly Mode you need to login your MS365 account`r`n" 
 	#$username = Read-Host"Please input your username"
@@ -33,17 +33,14 @@ while ($a -eq 1) {
              $a = 2 
  		 }  
  		 else  
- 		 {   $a = 2
-             $b = 0
-  			 while ($b -eq 0){
-             Write-Host '  Thank you for using PowerShell Silly Mode
-  	See you next time!'	 $b = 99
+ 		 {   
+            Write-Output '  Thank you for using PowerShell Silly Mode
+  	See you next time!'	 
              }
-        } 
 }
 
 ### Main Funtion start from here
-
+$b = 1
 while ($b -eq 1) {
 Write-host "What can I do for you? `r`n
 1.List All Mailbox`r`n
