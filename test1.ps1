@@ -40,38 +40,44 @@ while ($a -eq 1) {
 }
 
 ### Main Funtion start from here
+$b = 1
+while ($b -eq 1) {
 Write-host "What can I do for you? `r`n
-1.Get-EXOCasMailbox`r`n
-2.Get-EXOMailbox`r`n
-3.Get-EXOMailboxStatistics`r`n
-4.Get-EXORecipientDisable a mail box`r`n 
+1.List All Mailbox`r`n
+2.List Mailbox AutoReply Configuration`r`n
+3.List Mailbox Statistics`r`n
+4.List Inbox Rules`r`n 
 Q.Quit`r`n"
 
 $selection = Read-host 'Please input the number of your selection.'
 
     if ($selection -eq 1) {
-        Get-EXOCasMailbox
+        Get-Mailbox
+        $b = 1
     }
 
     if($selection -eq 2) {
-		$username = read-host "Please input your username"
-		Get-EXOMailbox -UserPrincipalName $username
+		Get-MailboxAutoReplyConfiguration
+        <#$username = read-host "Please input your username"
+		Get-EXOMailbox -UserPrincipalName $username#>
+        $b = 1
     }
 
 	if($selection -eq 3) {
-		Get-EXOMailboxStatistics
+		Get-MailboxStatistics
+        $b = 1
 	}
 
     if($selection -eq 4) {
-		$username = read-host "Please input your username"
-		Connect-Exchangeonline -UserPrincipalName $username
+		Get-InboxRule
+        $b = 1
     }
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
         Write-Host "Disconnected active ExchangeOnline session"
+        $b = 2
 	}
-
-#Function
+}#Function
 
 <#
 function FullAccess {
