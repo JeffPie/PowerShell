@@ -3,4 +3,4 @@
 
 👀Probaly have Powershel GUI in the future?
 
-🤷‍♂️Well, I'm trying
+🤷‍♂️
