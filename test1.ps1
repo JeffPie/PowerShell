@@ -28,6 +28,7 @@ while ($a -eq 1) {
  			 Write-host "Please put your Username & Password in the pop up window to login Exchange Online PowerShell module" 
              Write-Host Connecting to Exchange Online...
              Connect-ExchangeOnline 
+             Write-Host You have login successfully!`r`n
              $a = 2 
  		 }  
  		 else  
@@ -38,46 +39,48 @@ while ($a -eq 1) {
         } 
 }
 
-Param
-(
-    [Parameter(Mandatory = $false)]
-    [string]$UserName = $NULL,
-    [string]$Password = $NULL,
-    [string]$UPN = $NULL,
-    [string]$CSV = $NULL,
-    [switch]$FullAccess,
-    [switch]$SendAs,
-    [switch]$SendOnBehalf
-)
-function Connect_Exo {
-    #Check for EXO v2 module inatallation
-    $Module = Get-Module ExchangeOnlineManagement -ListAvailable
-    if ($Module.count -eq 0) { 
-        Write-Host "Exchange Online PowerShell V2 module is not available"  -ForegroundColor yellow  
-        $Confirm = Read-Host "Are you sure you want to install module? [Y] Yes [N] No" 
-        if ($Confirm -match "[yY]") { 
-            Write-host "Installing Exchange Online PowerShell module"
-            Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force
-        } 
-        else { 
-            Write-Host EXO V2 module is required to connect Exchange Online.Please install module using Install-Module ExchangeOnlineManagement cmdlet. 
-            Exit
-        }
+### Main Funtion start from here
+Write-host'What can I do for you? 
+1.Disable a mail box`r`n 
+2.Enable Auto forwarding message.`r`n
+Q.Quit`r`n'
+$selection = Read-host Please input the number of your selection.
+
+while ($selection -eq 1) {
+    Write-host 
+	$selection = read-host "Select your action."
+	if($selection -eq 1) {
+		$username = read-host "Please input your username"
+		Connect-Exchangeonline -UserPrincipalName $username
+	}
+	
+    if($selection -eq 2) {
+		$c = 1
+		while($c -eq 1){
+			write-host "1. Disable a mail box`r`n 2.Enable Auto forwarding message.`r`n3.Quit`r`n"
+			$sel = read-host "Please input your selection"
+			if($sel -eq "q"){
+				$c = 2
+			}
+			if($sel -eq "1"){
+				$usernameTobeDisabled = read-host "Please enter username to be disabled"
+				disableMailbox($usernameTobeDisabled)
+			}
+		}
+	}
+    if($selection -eq 1) {
+		$username = read-host "Please input your username"
+		Connect-Exchangeonline -UserPrincipalName $username
     } 
-    Write-Host Connecting to Exchange Online...
-    #Importing Module by default will avoid the cmdlet unrecognized error 
-    Import-Module ExchangeOnline -ErrorAction SilentlyContinue -Force
-    #Storing credential in script for scheduling purpose/ Passing credential as parameter - Authentication using non-MFA account
-    if (($UserName -ne "") -and ($Password -ne "")) {
-        $SecuredPassword = ConvertTo-SecureString -AsPlainText $Password -Force
-        $Credential = New-Object System.Management.Automation.PSCredential $UserName, $SecuredPassword
-        Connect-ExchangeOnline -Credential $Credential
-    }
-    else {
-        Connect-ExchangeOnline
-    }
-    Write-Host "ExchangeOnline PowerShell module is connected successfully"
-}
+    
+    if($selection -match "[qQ]"){
+        Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
+        Write-Host "Disconnected active ExchangeOnline session"
+		exit
+	}
+}#Function
+
+<#
 function FullAccess {
     $MB_FullAccess = $global:Mailbox | Get-MailboxPermission -User $UPN -ErrorAction SilentlyContinue | Select-Object Identity
     if ($MB_FullAccess.count -ne 0) {
@@ -190,28 +193,4 @@ if ((Test-Path -Path $global:ExportCSVFileName) -eq "True") {
 }
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 Write-Host "Disconnected active ExchangeOnline session"
-$b = 1
-while ($b -eq 1) {
-	$selection = read-host "Select your action."
-	if($selection -eq "q"){
-		$b = 2
-	}
-	if($selection -eq 1) {
-		$username = read-host "Please input your username"
-		Connect-Exchangeonline -UserPrincipalName $username
-	}
-	if($selection -eq 2) {
-		$c = 1
-		while($c -eq 1){
-			write-host "1. Disable a mail box`r`n 2.Enable Auto forwarding message.`r`n3.Quit`r`n"
-			$sel = read-host "Please input your selection"
-			if($sel -eq "q"){
-				$c = 2
-			}
-			if($sel -eq "1"){
-				$usernameTobeDisabled = read-host "Please enter username to be disabled"
-				disableMailbox($usernameTobeDisabled)
-			}
-		}
-	}
-} #Function
+#>
