@@ -44,41 +44,55 @@ $b = 1
 while ($b -eq 1) {
 Write-host "What can I do for you? `r`n
 1.List All Mailbox`r`n
-2.List Mailbox AutoReply Configuration`r`n
-3.List Mailbox Statistics`r`n
-4.List Inbox Rules`r`n 
-5.Set AutoReply`r`n 
+2.List User's Mailbox AutoReply Configuration`r`n
+3.List User's Mailbox Statistics`r`n
+4.List User's Inbox Rules`r`n 
+5.Enable User's AutoReply`r`n
+6.Disable User's AutoReply`r`n
 Q.Quit`r`n"
 
 $selection = Read-host 'Please input the number of your selection' `r`n
 
     if ($selection -eq 1) {
         Get-Mailbox | out-host -Paging
-        $b = 1
+        
     }
 
     if($selection -eq 2) {
-        $username = read-host "Please input your username in format Firstname.Lastname " 
+        $username = read-host "Please input user's username in format Firstname.Lastname " 
 		Get-MailboxAutoReplyConfiguration -Identity $username
-        $b = 1
+        
     }
 
 	if($selection -eq 3) {
-        $username = read-host "Please input your username in format Firstname.Lastname " 
+        $username = read-host "Please input user's username in format Firstname.Lastname " 
 		Get-MailboxStatistics -Identity $username
-        $b = 1
+       
 	}
 
     if($selection -eq 4) {
-		Get-InboxRule 
-        $b = 1
+        $username = read-host "Please input user's username in format Firstname.Lastname " 
+		Get-InboxRule -Identity $username
+        
+        
     }
 
     if ($selection -eq 5) {
-        Write-Host 'Which User You are going to set AutoReply?'
-        $username = read-host "Please input the username in format Firstname.Lastname " 
-        Set-MailboxAutoReplyConfiguration -Identity $username -confirm 
+        Write-Host 'Which User You are going to Enable AutoReply?'
+        $username = read-host "Please input user's username in format Firstname.Lastname " 
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage "Test" -ExternalMessage "Test"
+        Write-Host "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!"
+
     }
+
+    if ($selection -eq 6) {
+        Write-Host 'Which User You are going to Disable AutoReply?'
+        $username = read-host "Please input user's username in format Firstname.Lastname " 
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled"
+        Write-Host "User:$username's Mailbox AutoReplay has been Disabled!"
+
+    }
+
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
         Write-Host "Disconnected active ExchangeOnline session"
