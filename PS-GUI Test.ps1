@@ -8,8 +8,8 @@ $main_form.AutoSize = $true
 
 #Sign in ExchangeOnline 
 
-<#
-$answer = [System.Windows.MessageBox]::Show( "Do you want to login your ExchangeOnline?", " Login Confirmation", "YesNoCancel", "Warning" )
+
+<#$answer = [System.Windows.MessageBox]::Show( "Do you want to login your ExchangeOnline?", " Login Confirmation", "YesNoCancel", "Warning" )
 $Confirm= Read-Host Do you want to login your ExchangeOnline [Y] Yes [N] No  
  		 if($Confirm -match "[yY]")  
  		 {  
@@ -28,25 +28,20 @@ $Confirm= Read-Host Do you want to login your ExchangeOnline [Y] Yes [N] No
 
 #Create Label 
 $Label = New-Object System.Windows.Forms.Label
-$Label.Text = 'All Mailbox'
+$Label.Text = 'All Alias'
 $Label.Location = New-Object System.Drawing.Point(0,10)
 $Label.AutoSize = $true
 $main_form.Controls.Add($Label)
-
+#Drop-Down List
 $ComboBox = New-Object System.Windows.Forms.ComboBox
 $ComboBox.Width = 300
-$Users = Get-Mailbox -filter * -Properties SamAccountName
+$Users = Get-Alias 
 Foreach ($User in $Users)
 {
-$ComboBox.Items.Add($User.SamAccountName);
+$ComboBox.Items.Add($User);
 }
 $ComboBox.Location  = New-Object System.Drawing.Point(60,10)
 $main_form.Controls.Add($ComboBox)
-
-
-
-
-
 
 
 

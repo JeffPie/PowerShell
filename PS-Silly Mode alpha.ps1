@@ -47,12 +47,13 @@ Write-host "What can I do for you? `r`n
 2.List Mailbox AutoReply Configuration`r`n
 3.List Mailbox Statistics`r`n
 4.List Inbox Rules`r`n 
+5.Set AutoReply`r`n 
 Q.Quit`r`n"
 
-$selection = Read-host 'Please input the number of your selection'
+$selection = Read-host 'Please input the number of your selection' `r`n
 
     if ($selection -eq 1) {
-        Get-Mailbox 
+        Get-Mailbox | out-host -Paging
         $b = 1
     }
 
@@ -71,6 +72,12 @@ $selection = Read-host 'Please input the number of your selection'
     if($selection -eq 4) {
 		Get-InboxRule 
         $b = 1
+    }
+
+    if ($selection -eq 5) {
+        Write-Host 'Which User You are going to set AutoReply?'
+        $username = read-host "Please input the username in format Firstname.Lastname " 
+        Set-MailboxAutoReplyConfiguration -Identity $username -confirm 
     }
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
