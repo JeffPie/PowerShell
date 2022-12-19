@@ -42,7 +42,7 @@ while ($a -eq 1) {
 ### Main Funtion start from here
 $b = 1
 while ($b -eq 1) {
-Write-host "What can I do for you? `r`n
+Write-host "PowerShell Silly Mode Main Menu"`r`n"What can I do for you? `r`n
 1.List All Mailbox`r`n
 2.List User's Mailbox AutoReply Configuration`r`n
 3.List User's Mailbox Statistics`r`n
@@ -51,46 +51,47 @@ Write-host "What can I do for you? `r`n
 6.Disable User's AutoReply`r`n
 Q.Quit`r`n"
 
-$selection = Read-host 'Please input the number of your selection' `r`n
+$selection = Read-host 'Please input the number of your selection'
 
     if ($selection -eq 1) {
-        Get-Mailbox | out-host -Paging
-        
+        Get-Mailbox | out-host -Paging 
+        Read-host "press 'ENTER' key to return to Main Menu"
     }
 
     if($selection -eq 2) {
-        $username = read-host "Please input user's username in format Firstname.Lastname " 
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
 		Get-MailboxAutoReplyConfiguration -Identity $username
-        
+        Read-host "press 'ENTER' key to return to Main Menu"
     }
 
 	if($selection -eq 3) {
-        $username = read-host "Please input user's username in format Firstname.Lastname " 
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
 		Get-MailboxStatistics -Identity $username
-       
+        Read-host "press 'ENTER' key to return to Main Menu"
 	}
 
     if($selection -eq 4) {
-        $username = read-host "Please input user's username in format Firstname.Lastname " 
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
 		Get-InboxRule -Identity $username
-        
-        
+        Read-host "press 'ENTER' key to return to Main Menu"
     }
 
     if ($selection -eq 5) {
         Write-Host 'Which User You are going to Enable AutoReply?'
-        $username = read-host "Please input user's username in format Firstname.Lastname " 
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage "Test" -ExternalMessage "Test"
-        Write-Host "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!"
-
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
+        $message = read-host "Please Leave the AutoReply message here"
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message -Confirm
+        Write-Host "$username's Mailbox AutoReplay has been successfully enabled! "
+        "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!"
+        Read-host "press 'ENTER' key to return to Main Menu"
     }
 
     if ($selection -eq 6) {
         Write-Host 'Which User You are going to Disable AutoReply?'
-        $username = read-host "Please input user's username in format Firstname.Lastname " 
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled"
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled" -Confirm
         Write-Host "User:$username's Mailbox AutoReplay has been Disabled!"
-
+        Read-host "press 'ENTER' key to return to Main Menu"
     }
 
     if($selection -match "[qQ]"){
