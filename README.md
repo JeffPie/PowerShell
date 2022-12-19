@@ -1,6 +1,6 @@
 # PowerShell
 🌱This Repo contains useful Everyday Office Management/Automation PowerShell Scripts
 
-👀Probaly have Powershel GUI in the future?
+👀Working on the Powershel GUI with Visual Studio Visual C# > Windows Forms App (.NET Framework)
 
 🤷‍♂️
