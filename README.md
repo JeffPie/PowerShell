@@ -1,4 +1,4 @@
 # PowerShell
-🌱This Repo contains useful Everyday Office Management/Automation PowerShell Scripts
+🌱This Repo contains useful Everyday Office Management/Automation Scripts with PowerShell ExchangeOnline Management Module
 
-👀Working on the Powershel GUI with Visual Studio Visual C# > Windows Forms App (.NET Framework)
+👀Probebly work on Powershel GUI with Visual Studio Visual C# > Windows Forms App (.NET Framework)
