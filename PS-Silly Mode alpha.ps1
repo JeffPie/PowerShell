@@ -42,49 +42,51 @@ while ($a -eq 1) {
 ### Main Funtion start from here
 $b = 1
 while ($b -eq 1) {
-Write-host "PowerShell Silly Mode Main Menu"`r`n"What can I do for you? `r`n
-1.List All Mailbox`r`n
-2.List User's Mailbox AutoReply Configuration`r`n
+Write-host "<<<PowerShell Silly Mode Main Menu>>>"`r`n"What can I do for you? `r`n
+1.List All Users`r`n
+2.List All Users' Mailbox`r`n
 3.List User's Mailbox Statistics`r`n
-4.List User's Inbox Rules`r`n 
+4.List User's Mailbox AutoReply Configuration`r`n 
 5.Enable User's AutoReply`r`n
 6.Disable User's AutoReply`r`n
+7.List User's MailboxPermission`r`n
+8.Add User's MailboxPermission`r`n
+9.Remove User's MailboxPermission`r`n 
 Q.Quit`r`n"
 
 $selection = Read-host 'Please input the number of your selection'
 
     if ($selection -eq 1) {
-        Get-Mailbox | out-host -Paging 
+        Get-Recipient | out-host -Paging 
         Read-host "press 'ENTER' key to return to Main Menu"
-    }
+    }#List all User
 
-    if($selection -eq 2) {
+    if ($selection -eq 2) {
+        Get-EXOMailbox | out-host -Paging 
+        Read-host "press 'ENTER' key to return to Main Menu"
+    }#List all Mailbox
+
+    if($selection -eq 3) {
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
+		Get-MailboxStatistics -Identity $username | out-host -Paging
+        Read-host "press 'ENTER' key to return to Main Menu"
+	}#Get Mailbox Statistics
+	
+    if($selection -eq 4) {
         $username = read-host "Please input user's username in format Firstname.Lastname" 
 		Get-MailboxAutoReplyConfiguration -Identity $username
         Read-host "press 'ENTER' key to return to Main Menu"
-    }
-
-	if($selection -eq 3) {
-        $username = read-host "Please input user's username in format Firstname.Lastname" 
-		Get-MailboxStatistics -Identity $username
-        Read-host "press 'ENTER' key to return to Main Menu"
-	}
-
-    if($selection -eq 4) {
-        $username = read-host "Please input user's username in format Firstname.Lastname" 
-		Get-InboxRule -Identity $username
-        Read-host "press 'ENTER' key to return to Main Menu"
-    }
+    }#Get user's MailboxAutoReplyConfiguration
 
     if ($selection -eq 5) {
         Write-Host 'Which User You are going to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        $message = read-host "Please Leave the AutoReply message here"
+        $message = read-host  "Please Copy and Edit the AutoReply message here: <html><body>Hi XXX,<br>This is Line 1, delete and put your message here.<br>Regards,<br>Name</body></html>"
         Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message -Confirm
         Write-Host "$username's Mailbox AutoReplay has been successfully enabled! "
         "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!"
         Read-host "press 'ENTER' key to return to Main Menu"
-    }
+    }#Enable User's AutoReply
 
     if ($selection -eq 6) {
         Write-Host 'Which User You are going to Disable AutoReply?'
@@ -92,7 +94,30 @@ $selection = Read-host 'Please input the number of your selection'
         Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled" -Confirm
         Write-Host "User:$username's Mailbox AutoReplay has been Disabled!"
         Read-host "press 'ENTER' key to return to Main Menu"
-    }
+    }#Disable User's AutoReply
+
+    if ($selection -eq 7) {
+        Write-Host 'Which User You are going to List Mailbox Permission?'
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
+        Get-MailboxPermission -Identity $username 
+        Read-host "press 'ENTER' key to return to Main Menu"
+    }#List User's MailboxPermission
+
+    if ($selection -eq 8) {
+        Write-Host 'Which User You are going to List Mailbox Permission?'
+        $username = read-host "Please input user's username in format Firstname.Lastname"
+        $permissionuser = read-host "Please input the username who have the permission in format Firstname.Lastname"  
+        Get-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
+        Read-host "press 'ENTER' key to return to Main Menu"
+    }#Add User's MailboxPermission
+
+    if ($selection -eq 9) {
+        Write-Host 'Which User You are going to List Mailbox Permission?'
+        $username = read-host "Please input user's username in format Firstname.Lastname"
+        $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
+        Get-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
+        Read-host "press 'ENTER' key to return to Main Menu"
+    }#Remove User's MailboxPermission
 
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue

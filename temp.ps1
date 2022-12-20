@@ -6,3 +6,11 @@ Set-MailboxAutoReplyConfiguration -Identity "Lene.Hau" -AutoReplyState "Schedule
 
 Disable automatic replies.
 Set-MailboxAutoReplyConfiguration -Identity "Lene.Hau" -AutoReplyState "Disabled"
+
+Get-MailboxPermission
+Get-MailboxPermission -Identity john@contoso.com | Format-List
+
+
+Get-MailboxPermission 
+Add-MailboxPermission                                                   
+Remove-MailboxPermission                         
