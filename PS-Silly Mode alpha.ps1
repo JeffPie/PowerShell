@@ -1,5 +1,6 @@
 #Check for EXO V2 module installation 
-Write-host ":) Welcome to Exchange Online PowerShell Silly Mode! Checking if ExchangeOnline Module installed...`r`n"
+Write-host ":) Welcome to Exchange Online PowerShell Silly Mode!"-ForegroundColor Blue -BackgroundColor White
+Write-Host "Checking if ExchangeOnline Module installed...`r`n" 
 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
 if($Module.count -eq 0)  {  
@@ -54,7 +55,7 @@ Write-host "<<<PowerShell Silly Mode Main Menu>>>"`r`n"What can I do for you? `r
 7.List User's MailboxPermission`r`n
 8.Add User's MailboxPermission`r`n
 9.Remove User's MailboxPermission`r`n 
-Q.Quit`r`n"
+Q.Quit`r`n" -ForegroundColor Yellow
 
 $selection = Read-host 'Please input the number of your selection'
 
@@ -85,8 +86,8 @@ $selection = Read-host 'Please input the number of your selection'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
         $message = read-host  "Please Copy and Edit the AutoReply message here: <html><body>Hi XXX,<br>This is Line 1, delete and put your message here.<br>Regards,<br>Name</body></html>"
         Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message -Confirm
-        Write-Host "$username's Mailbox AutoReplay has been successfully enabled! "
-        "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!"
+        Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
+        "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
         Read-host "press 'ENTER' key to return to Main Menu"
     }#Enable User's AutoReply
 
@@ -94,7 +95,7 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You are going to Disable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
         Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled" -Confirm
-        Write-Host "User:$username's Mailbox AutoReplay has been Disabled!"
+        Write-Host "User:$username's Mailbox AutoReplay has been Disabled!" -ForegroundColor DarkGreen -BackgroundColor White
         Read-host "press 'ENTER' key to return to Main Menu"
     }#Disable User's AutoReply
 
@@ -110,7 +111,7 @@ $selection = Read-host 'Please input the number of your selection'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who have the permission in format Firstname.Lastname"  
         Add-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
-        Write-Host "The permission has been successfully Added!"
+        Write-Host "The permission has been successfully Added!" -ForegroundColor DarkGreen -BackgroundColor White
         Read-host "press 'ENTER' key to return to Main Menu"
     }#Add User's MailboxPermission
 
@@ -119,128 +120,13 @@ $selection = Read-host 'Please input the number of your selection'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
         Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
-        Write-Host "The permission has been successfully Removed!"
+        Write-Host "The permission has been successfully Removed!" -ForegroundColor DarkGreen -BackgroundColor White
         Read-host "press 'ENTER' key to return to Main Menu"
     }#Remove User's MailboxPermission
 
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
-        Write-Host "Disconnected active ExchangeOnline session"
+        Write-Host "Disconnected active ExchangeOnline session" -ForegroundColor DarkGreen -BackgroundColor White
         $b = 2
 	}
 }#Function
-
-<#
-function FullAccess {
-    $MB_FullAccess = $global:Mailbox | Get-MailboxPermission -User $UPN -ErrorAction SilentlyContinue | Select-Object Identity
-    if ($MB_FullAccess.count -ne 0) {
-        $ExportResult = @{'User Name' = $Identity; 'AccessType' = "Full Access"; 'Delegated Mailbox Name' = $MB_FullAccess.Identity -join (",") }
-    }
-    else {
-        $ExportResult = @{'User Name' = $Identity; 'AccessType' = "Full Access"; 'Delegated Mailbox Name' = "-" }
-    }
-    $ExportResults = New-Object PSObject -Property $ExportResult
-    $ExportResults | Select-object 'User Name', 'AccessType', 'Delegated Mailbox Name' | Export-csv -path $global:ExportCSVFileName -NoType -Append -Force
-}
-function SendAs {
-    $MB_SendAs = Get-RecipientPermission -Trustee $UPN -ErrorAction SilentlyContinue | Select-Object Identity
-    if ($MB_SendAs.count -ne 0) {
-        $ExportResult = @{'User Name' = $Identity; 'AccessType' = "Send As"; 'Delegated Mailbox Name' = $MB_SendAs.Identity -join (",") }
-    }
-    else {
-        $ExportResult = @{'User Name' = $Identity; 'AccessType' = "Send As"; 'Delegated Mailbox Name' = "-" }
-    }
-    $ExportResults = New-Object PSObject -Property $ExportResult
-    $ExportResults | Select-object 'User Name', 'AccessType', 'Delegated Mailbox Name' | Export-csv -path $global:ExportCSVFileName -NoType -Append -Force
-    
-}
-function SendOnBehalfTo {
-    $MB_SendOnBehalfTo = $global:Mailbox | Where-Object { $_.GrantSendOnBehalfTo -match $Identity } -ErrorAction SilentlyContinue | Select-Object Name
-    if ($MB_SendOnBehalfTo.count -ne 0) {
-        $ExportResult = @{'User Name' = $Identity; 'AccessType' = "Send on Behalf"; 'Delegated Mailbox Name' = $MB_SendOnBehalfTo.Name -join (",") }
-    }
-    else {
-        $ExportResult = @{'User Name' = $Identity; 'AccessType' = "Send on Behalf"; 'Delegated Mailbox Name' = "-" }
-    }
-    $ExportResults = New-Object PSObject -Property $ExportResult
-    $ExportResults | Select-object 'User Name', 'AccessType', 'Delegated Mailbox Name' | Export-csv -path $global:ExportCSVFileName -NoType -Append -Force
-}
-
-
-Connect_Exo 
-$global:ExportCSVFileName = "MailboxesUserHasAccessTo_" + ((Get-Date -format "MMM-dd hh-mm-ss tt").ToString()) + ".csv"
-$global:Mailbox = Get-Mailbox -ResultSize Unlimited
-if (($UPN -ne "")) {
-    $UserInfo = $global:Mailbox | Where-Object { $_.UserPrincipalName -eq "$UPN" } | Select-Object Identity
-    $Identity = $UserInfo.Identity
-    if ($FullAccess.IsPresent) {
-        FullAccess
-    }
-    if ($SendAs.IsPresent) {
-        SendAs
-    }
-    if ($SendOnBehalf.IsPresent) {
-        SendOnBehalfTo
-    }
-    if((($FullAccess.IsPresent) -eq $false) -and (($SendAs.IsPresent) -eq $false) -and (($SendOnBehalf.IsPresent) -eq $false)){
-        FullAccess
-        SendAs
-        SendOnBehalfTo
-    }
-}
-elseif (($CSV -ne "")) {
-    Import-Csv $CSV -ErrorAction Stop | ForEach-Object {
-        $UPN = $_.UPN
-        $UserInfo = $global:Mailbox | Where-Object { $_.UserPrincipalName -eq "$UPN" } | Select-Object Identity
-        $Identity = $UserInfo.Identity
-        Write-Progress "Processing for the Mailbox: $Identity"
-        if ($FullAccess.IsPresent) {
-            FullAccess
-        }
-        if ($SendAs.IsPresent) {
-            SendAs
-        }
-        if ($SendOnBehalf.IsPresent) {
-            SendOnBehalfTo
-        }
-        if((($FullAccess.IsPresent) -eq $false) -and (($SendAs.IsPresent) -eq $false) -and (($SendOnBehalf.IsPresent) -eq $false)){
-            FullAccess
-            SendAs
-            SendOnBehalfTo
-        }
-    }
-}
-else {
-    $MBCount = 0
-    $global:Mailbox | ForEach-Object {
-        $MBCount = $MBCount + 1
-        $UPN = $_.UserPrincipalName
-        $Identity = $_.Identity
-        Write-Progress -Activity "Processing for  : $Identity" -Status "Processing mailbox Count: $MBCount" 
-        if ($FullAccess.IsPresent) {
-            FullAccess
-        }
-        if ($SendAs.IsPresent) {
-            SendAs
-        }
-        if ($SendOnBehalf.IsPresent) {
-            SendOnBehalfTo
-        }
-        if((($FullAccess.IsPresent) -eq $false) -and (($SendAs.IsPresent) -eq $false) -and (($SendOnBehalf.IsPresent) -eq $false)){
-            FullAccess
-            SendAs
-            SendOnBehalfTo
-        }
-    }
-}
-if ((Test-Path -Path $global:ExportCSVFileName) -eq "True") {     
-    Write-Host "The Output file availble in `"$global:ExportCSVFileName`"" -ForegroundColor Green 
-    $prompt = New-Object -ComObject wscript.shell    
-    $userInput = $prompt.popup("Do you want to open output files?", 0, "Open Output File", 4)    
-    if ($userInput -eq 6) {    
-        Invoke-Item "$global:ExportCSVFileName"
-    }  
-}
-Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
-Write-Host "Disconnected active ExchangeOnline session"
-#>
