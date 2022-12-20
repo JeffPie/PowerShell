@@ -4,11 +4,11 @@ Write-Host "Checking if ExchangeOnline Module installed...`r`n"
 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
 if($Module.count -eq 0)  {  
-     Write-Host Exchange Online PowerShell V2 module is not available`r`nTo use PowerShell Silly Mode you need to install Exchange Online Module -ForegroundColor yellow   
+     Write-Host Exchange Online PowerShell module is not available`r`nTo use PowerShell Silly Mode you need to install Exchange Online Module -ForegroundColor yellow   
     $Confirm= Read-Host Are you sure you want to install module? [Y] Yes [N] No  
     if($Confirm -match "[yY]")  
     {  
-     Write-host "Installing Exchange Online PowerShell module`r`n" 
+     Write-host "Installing Exchange Online PowerShell module...`r`n" 
      Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force
      }  
      else  
@@ -126,7 +126,10 @@ $selection = Read-host 'Please input the number of your selection'
 
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
-        Write-Host "Disconnected active ExchangeOnline session" -ForegroundColor DarkGreen -BackgroundColor White
+        Write-Host "Disconnected From ExchangeOnline session" -ForegroundColor Blue -BackgroundColor White
         $b = 2
 	}
 }#Function
+Write-Output '  Thank you for using PowerShell Silly Mode
+        See you next time!'	 
+Read-host "To Exit Please Press 'ENTER' key"
