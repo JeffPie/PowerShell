@@ -4,16 +4,16 @@ Write-Host "Checking if ExchangeOnline Module installed...`r`n"
 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
 if($Module.count -eq 0)  {  
-     Write-Host Exchange Online PowerShell V2 module is not available  -ForegroundColor yellow   
+     Write-Host Exchange Online PowerShell V2 module is not available`r`nTo use PowerShell Silly Mode you need to install Exchange Online Module -ForegroundColor yellow   
     $Confirm= Read-Host Are you sure you want to install module? [Y] Yes [N] No  
     if($Confirm -match "[yY]")  
     {  
      Write-host "Installing Exchange Online PowerShell module`r`n" 
-     Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force 
+     Install-Module ExchangeOnlineManagement -Repository PSGallery -AllowClobber -Force
      }  
      else  
      {  
-      Write-Host EXO V2 module is required to connect Exchange Online.Please install module to using ExchangeOnlineManagement cmdlet.  
+      Write-Host EXO V2 module is required to connect Exchange Online.Please install module to using ExchangeOnlineManagement cmdlet. 
      } 
 }
 else { Write-Host 'Excellent! Looks like you are good to go!'`r`n}
