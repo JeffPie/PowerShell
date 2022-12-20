@@ -36,6 +36,8 @@ while ($a -eq 1) {
  		 {   
             Write-Output '  Thank you for using PowerShell Silly Mode
   	See you next time!'	 
+      Read-host "To Exit Please Press 'ENTER' key"
+      exit
              }
 }
 
@@ -107,7 +109,8 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You are going to List Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who have the permission in format Firstname.Lastname"  
-        Get-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
+        Add-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
+        Write-Host "The permission has been successfully Added!"
         Read-host "press 'ENTER' key to return to Main Menu"
     }#Add User's MailboxPermission
 
@@ -115,7 +118,8 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You are going to List Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
-        Get-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
+        Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
+        Write-Host "The permission has been successfully Removed!"
         Read-host "press 'ENTER' key to return to Main Menu"
     }#Remove User's MailboxPermission
 
