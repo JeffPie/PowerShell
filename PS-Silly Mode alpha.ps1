@@ -121,7 +121,7 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You are going to Add a Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who have the permission in format Firstname.Lastname"  
-        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nGive $permissionuser permission to access $username's mailbox:`r`n[Y] Yes [N] No"
             if ($confirm -match "[yY]"){
             Add-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser
             Write-Host "The permission has been successfully Added!" -ForegroundColor DarkGreen -BackgroundColor White
@@ -136,7 +136,7 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You are going to Remove a Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
-        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nRemove $permissionuser permission to access $username's mailbox:`r`n[Y] Yes [N] No"
             if ($confirm -match "[yY]"){
             Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser
             Write-Host "The permission has been successfully Removed!" -ForegroundColor DarkGreen -BackgroundColor White
