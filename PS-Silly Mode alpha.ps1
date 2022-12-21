@@ -35,8 +35,7 @@ while ($a -eq 1) {
  		 }  
  		 else  
  		 {   
-            Write-Output '  Thank you for using PowerShell Silly Mode
-  	See you next time!'	 
+            Write-Host 'Thank you for using PowerShell Silly Mode, See you next time!'	 -ForegroundColor Blue -BackgroundColor White
       Read-host "To Exit Please Press 'ENTER' key"
       exit
              }
@@ -130,6 +129,5 @@ $selection = Read-host 'Please input the number of your selection'
         $b = 2
 	}
 }#Function
-Write-Output '  Thank you for using PowerShell Silly Mode
-        See you next time!'	 
+Write-Output '  Thank you for using PowerShell Silly Mode, See you next time!'	 -ForegroundColor Blue -BackgroundColor White
 Read-host "To Exit Please Press 'ENTER' key"
