@@ -29,7 +29,7 @@ while ($a -eq 1) {
  		 {  
  			 Write-host "Please put your Username & Password in the pop up window to login Exchange Online PowerShell module" 
              Write-Host Connecting to Exchange Online...
-             Connect-ExchangeOnline 
+             Connect-ExchangeOnline
              Write-Host You have login successfully!`r`n
              $a = 2 
  		 }  
@@ -84,20 +84,32 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You are going to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
         $message = read-host  "Please Copy and Edit the AutoReply message here: <html><body>Hi XXX,<br>This is Line 1, delete and put your message here.<br>Regards,<br>Name</body></html>"
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message -Confirm
-        Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
-        "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
-        Read-host "press 'ENTER' key to return to Main Menu"
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+            if ($confirm -match "[yY]"){
+            Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message
+            Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
+            "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
+            Read-host "press 'ENTER' key to return to Main Menu"
+            }
+            else {
+            $b = 1
+            }
+        
     }#Enable User's AutoReply
 
     if ($selection -eq 6) {
         Write-Host 'Which User You are going to Disable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled" -Confirm
-        Write-Host "User:$username's Mailbox AutoReplay has been Disabled!" -ForegroundColor DarkGreen -BackgroundColor White
-        Read-host "press 'ENTER' key to return to Main Menu"
-    }#Disable User's AutoReply
-
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nRemove the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+            if ($confirm -match "[yY]"){
+            Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Disabled"
+            Write-Host "User:$username's Mailbox AutoReplay has been Disabled!" -ForegroundColor DarkGreen -BackgroundColor White
+            Read-host "press 'ENTER' key to return to Main Menu"
+            }#Disable User's AutoReply
+            else {
+                $b = 1
+            }
+    }    
     if ($selection -eq 7) {
         Write-Host 'Which User You are going to List Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
@@ -106,21 +118,34 @@ $selection = Read-host 'Please input the number of your selection'
     }#List User's MailboxPermission
 
     if ($selection -eq 8) {
-        Write-Host 'Which User You are going to List Mailbox Permission?'
+        Write-Host 'Which User You are going to Add a Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who have the permission in format Firstname.Lastname"  
-        Add-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
-        Write-Host "The permission has been successfully Added!" -ForegroundColor DarkGreen -BackgroundColor White
-        Read-host "press 'ENTER' key to return to Main Menu"
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+            if ($confirm -match "[yY]"){
+            Add-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser
+            Write-Host "The permission has been successfully Added!" -ForegroundColor DarkGreen -BackgroundColor White
+            Read-host "press 'ENTER' key to return to Main Menu"
+            }
+            else{
+                    $b = 1
+            }
     }#Add User's MailboxPermission
 
     if ($selection -eq 9) {
-        Write-Host 'Which User You are going to List Mailbox Permission?'
+        Write-Host 'Which User You are going to Remove a Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
-        Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm
-        Write-Host "The permission has been successfully Removed!" -ForegroundColor DarkGreen -BackgroundColor White
-        Read-host "press 'ENTER' key to return to Main Menu"
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+            if ($confirm -match "[yY]"){
+            Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser
+            Write-Host "The permission has been successfully Removed!" -ForegroundColor DarkGreen -BackgroundColor White
+            Read-host "press 'ENTER' key to return to Main Menu"
+            }
+            else{
+                    $b = 1
+            }
+        
     }#Remove User's MailboxPermission
 
     if($selection -match "[qQ]"){
