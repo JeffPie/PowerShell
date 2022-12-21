@@ -138,7 +138,7 @@ $selection = Read-host 'Please input the number of your selection'
         $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
         $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nRemove $permissionuser permission to access $username's mailbox:`r`n[Y] Yes [N] No"
             if ($confirm -match "[yY]"){
-            Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser
+            Remove-MailboxPermission -Identity $username -AccessRights FullAccess -User $permissionuser -Confirm:$false
             Write-Host "The permission has been successfully Removed!" -ForegroundColor DarkGreen -BackgroundColor White
             Read-host "press 'ENTER' key to return to Main Menu"
             }
