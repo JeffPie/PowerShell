@@ -54,6 +54,7 @@ Write-host "<<<PowerShell Silly Mode Main Menu>>>"`r`n"What can I do for you? `r
 7.List User's MailboxPermission`r`n
 8.Add User's MailboxPermission`r`n
 9.Remove User's MailboxPermission`r`n 
+10.Enable Group Mailbox AutoReply`r`n
 Q.Quit`r`n" -ForegroundColor Yellow
 
 $selection = Read-host 'Please input the number of your selection'
@@ -144,10 +145,22 @@ $selection = Read-host 'Please input the number of your selection'
             }
             else{
                     $b = 1
-            }
-        
-    }#Remove User's MailboxPermission
-
+            }#Remove User's MailboxPermission
+        }
+     if ($selection -eq 10) {
+        Write-Host 'Which User You are going to Enable AutoReply?'
+        $username = read-host "Please input user's username in format Firstname.Lastname" 
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage "<html><body>Hi,<br>Thanks for your email.
+        Our office is now closed, reopening at 9am on Tuesday 3 Jan 2023.
+        <br>If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
+        Phone our emergency after hours number  6228 3899.
+        <br>Otherwise, we will respond to you on Tuesday.<br>Thank you!</body></html>"-ExternalAudience All
+        Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
+        "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
+        Read-host "press 'ENTER' key to return to Main Menu"
+        }
+         #Enable User's AutoReply
+           
     if($selection -match "[qQ]"){
         Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
         Write-Host "Disconnected From ExchangeOnline session" -ForegroundColor Blue -BackgroundColor White

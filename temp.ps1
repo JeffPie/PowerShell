@@ -127,3 +127,17 @@ if ((Test-Path -Path $global:ExportCSVFileName) -eq "True") {
 }
 Disconnect-ExchangeOnline -Confirm:$false -InformationAction Ignore -ErrorAction SilentlyContinue
 Write-Host "Disconnected active ExchangeOnline session"
+
+
+#Autoreply in timerange
+Set-MailboxAutoReplyConfiguration -Identity jeff.wang -AutoReplyState "Scheduled" -StartTime "12/30/2022 3:00:00 PM" -EndTime "01/02/2023 5:00:00 PM" -ExternalMessage "<html><body>Hi,<br>Thanks for your email.
+Our office is now closed, reopening at 9am on Tuesday 3 Jan 2023.
+<br>If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
+Phone our emergency after hours number  6228 3899.
+<br>Otherwise, we will respond to you on Tuesday.<br>Thank you!</body></html>"-ExternalAudience All
+
+Set-MailboxAutoReplyConfiguration -Identity jeff.wang -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage "<html><body>Hi,<br>Thanks for your email.
+Our office is now closed, reopening at 9am on Tuesday 3 Jan 2023.
+<br>If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
+Phone our emergency after hours number  6228 3899.
+<br>Otherwise, we will respond to you on Tuesday.<br>Thank you!</body></html>"-ExternalAudience All
