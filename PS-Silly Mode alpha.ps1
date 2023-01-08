@@ -177,5 +177,15 @@ $selection = Read-host 'Please input the number of your selection'
         $b = 2
 	}
 }#Function
-Write-Output '  Thank you for using PowerShell Silly Mode, See you next time!'	 -ForegroundColor Blue -BackgroundColor White
+Write-Output "
+___________________________________
+/ :) Thank you for using PowerShell Exchange \
+\ Online Silly Mode! See you next time!      /
+___________________________________
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+"-ForegroundColor  Cyan
 Read-host "To Exit Please Press 'ENTER' key"
