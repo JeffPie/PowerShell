@@ -1,9 +1,9 @@
 #Check for EXO V2 module installation 
 Write-host "
-___________________________________
+____________________________________
 / :) Welcome to PowerShell Exchange \
 \ Online Silly Mode!                /
-___________________________________
+____________________________________
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
@@ -45,7 +45,17 @@ while ($a -eq 1) {
  		 }  
  		 else  
  		 {   
-            Write-Host 'Thank you for using PowerShell Silly Mode, See you next time!'	 -ForegroundColor Blue -BackgroundColor White
+            Write-Host "
+_____________________________________________
+/ :) Thank you for using PowerShell Exchange \
+\ Online Silly Mode! See you next time!      /
+_____________________________________________
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+"-ForegroundColor  Cyan
       Read-host "To Exit Please Press 'ENTER' key"
       exit
              }
