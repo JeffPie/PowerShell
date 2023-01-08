@@ -1,5 +1,15 @@
 #Check for EXO V2 module installation 
-Write-host ":) Welcome to Exchange Online PowerShell Silly Mode!"-ForegroundColor Blue -BackgroundColor White
+Write-host "
+___________________________________
+/ :) Welcome to PowerShell Exchange \
+\ Online Silly Mode!                /
+___________________________________
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+"-ForegroundColor  Cyan
 Write-Host "Checking if ExchangeOnline Module installed...`r`n" 
 
 $Module = Get-Module ExchangeOnlineManagement -ListAvailable 
