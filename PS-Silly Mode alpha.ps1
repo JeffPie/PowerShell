@@ -177,11 +177,11 @@ $selection = Read-host 'Please input the number of your selection'
         $b = 2
 	}
 }#Function
-Write-Output "
-___________________________________
+Write-Host "
+_____________________________________________
 / :) Thank you for using PowerShell Exchange \
 \ Online Silly Mode! See you next time!      /
-___________________________________
+_____________________________________________
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
