@@ -56,9 +56,10 @@ _____________________________________________
                 ||----w |
                 ||     ||
 "-ForegroundColor  Cyan
-      Read-host "To Exit Please Press 'ENTER' key"
-      exit
-             }
+    
+    Start-Sleep -Seconds 2
+    Exit
+        }
 }
 
 ### Main Funtion start from here
@@ -102,17 +103,14 @@ $selection = Read-host 'Please input the number of your selection'
     }#Get user's MailboxAutoReplyConfiguration
 
     if ($selection -eq 5) {
-        Write-Host 'Which User You are going to Enable AutoReply?'
+        Write-Host 'Which User You need to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        $message = read-host  "Please Copy and Edit the AutoReply message here: <pre>Hi,
-
-        I'm currently out of the office, I will be back on Time Week Date.
-        If you have any enquire please call (03) 6228 3899
-        
-        Thanks</pre>"
-        $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
+        $message = read-host  "Please Copy and Edit the AutoReply message between: <pre> </pre>"
+        $starttime = read-host "Please put the start time of autoreply in format 'mm/dd/yyyy 6:00:00 AM' set time should minus 11 hours from Hobart Time"
+        $endtime = read-host "Please put the start time of autoreply in format 'mm/dd/yyyy 6:00:00 AM' set time should minus 11 hours from Hobart Time"
+        $confirm = Read-Host  "Confirm`r`nAre you sure you want to Set the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
             if ($confirm -match "[yY]"){
-            Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message
+            Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "$starttime" -EndTime "$endtime" -ExternalMessage $message -ExternalAudience All -InternalMessage $null
             Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
             "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
             Read-host "press 'ENTER' key to return to Main Menu"
@@ -124,7 +122,7 @@ $selection = Read-host 'Please input the number of your selection'
     }#Enable User's AutoReply
 
     if ($selection -eq 6) {
-        Write-Host 'Which User You are going to Disable AutoReply?'
+        Write-Host 'Which User You are need to Disable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
         $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nRemove the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
             if ($confirm -match "[yY]"){
@@ -137,14 +135,14 @@ $selection = Read-host 'Please input the number of your selection'
             }
     }    
     if ($selection -eq 7) {
-        Write-Host 'Which User You are going to List Mailbox Permission?'
+        Write-Host 'Which User You need to List Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
         Get-MailboxPermission -Identity $username 
         Read-host "press 'ENTER' key to return to Main Menu"
     }#List User's MailboxPermission
 
     if ($selection -eq 8) {
-        Write-Host 'Which User You are going to Add a Mailbox Permission?'
+        Write-Host 'Which User You need to Add a Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who have the permission in format Firstname.Lastname"  
         $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nGive $permissionuser permission to access $username's mailbox:`r`n[Y] Yes [N] No"
@@ -159,7 +157,7 @@ $selection = Read-host 'Please input the number of your selection'
     }#Add User's MailboxPermission
 
     if ($selection -eq 9) {
-        Write-Host 'Which User You are going to Remove a Mailbox Permission?'
+        Write-Host 'Which User You need to Remove a Mailbox Permission?'
         $username = read-host "Please input user's username in format Firstname.Lastname"
         $permissionuser = read-host "Please input the username who will be removed from permission in format Firstname.Lastname"  
         $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nRemove $permissionuser permission to access $username's mailbox:`r`n[Y] Yes [N] No"
@@ -173,14 +171,10 @@ $selection = Read-host 'Please input the number of your selection'
             }#Remove User's MailboxPermission
         }
      if ($selection -eq 10) {
-        Write-Host 'Which User You are going to Enable AutoReply?'
+        Write-Host 'Which User You need to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage "<pre>Thank you for your email.
-        Our office is now closed, reopening at 9am on Tuesday 3 Jan 2023.
-        If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
-        Phone our emergency after hours number  6228 3899.
-        Otherwise, we will respond to you on DAY.
-        Thank you!"-ExternalAudience All
+        $message = read-host  "Please Copy and Edit the AutoReply message between: <pre> </pre>"
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage $message -ExternalAudience All -InternalMessage $null
         Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
         "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
         Read-host "press 'ENTER' key to return to Main Menu"
