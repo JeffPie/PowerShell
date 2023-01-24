@@ -175,8 +175,7 @@ $selection = Read-host 'Please input the number of your selection'
      if ($selection -eq 10) {
         Write-Host 'Which User You are going to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage 
-        "<pre>Thank you for your email.
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage "<pre>Thank you for your email.
         Our office is now closed, reopening at 9am on Tuesday 3 Jan 2023.
         If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
         Phone our emergency after hours number  6228 3899.
