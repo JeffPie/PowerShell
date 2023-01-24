@@ -104,7 +104,12 @@ $selection = Read-host 'Please input the number of your selection'
     if ($selection -eq 5) {
         Write-Host 'Which User You are going to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        $message = read-host  "Please Copy and Edit the AutoReply message here: <html><body>Hi XXX,<br>This is Line 1, delete and put your message here.<br>Regards,<br>Name</body></html>"
+        $message = read-host  "Please Copy and Edit the AutoReply message here: <pre>Hi,
+
+        I'm currently out of the office, I will be back on Time Week Date.
+        If you have any enquire please call (03) 6228 3899
+        
+        Thanks</pre>"
         $confirm = Read-Host  "Confirm`r`nAre you sure you want to perform this action?`r`nSetting the automatic reply configuration for mailbox Identity:$username`r`n[Y] Yes [N] No"
             if ($confirm -match "[yY]"){
             Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Enabled" -ExternalAudience "Known" -InternalMessage $message -ExternalMessage $message
@@ -170,11 +175,13 @@ $selection = Read-host 'Please input the number of your selection'
      if ($selection -eq 10) {
         Write-Host 'Which User You are going to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage "<html><body>Hi,<br>Thanks for your email.
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage 
+        "<pre>Thank you for your email.
         Our office is now closed, reopening at 9am on Tuesday 3 Jan 2023.
-        <br>If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
+        If your matter is urgent and about services before 10am on Tuesday 3 Jan 2023, please
         Phone our emergency after hours number  6228 3899.
-        <br>Otherwise, we will respond to you on Tuesday.<br>Thank you!</body></html>"-ExternalAudience All
+        Otherwise, we will respond to you on DAY.
+        Thank you!"-ExternalAudience All
         Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
         "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
         Read-host "press 'ENTER' key to return to Main Menu"
