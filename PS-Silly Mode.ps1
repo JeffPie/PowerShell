@@ -174,7 +174,9 @@ $selection = Read-host 'Please input the number of your selection'
         Write-Host 'Which User You need to Enable AutoReply?'
         $username = read-host "Please input user's username in format Firstname.Lastname" 
         $message = read-host  "Please Copy and Edit the AutoReply message between: <pre> </pre>"
-        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "12/30/2022 6:00:00 AM" -EndTime "01/02/2023 6:00:00 AM" -ExternalMessage $message -ExternalAudience All -InternalMessage $null
+        $starttime = read-host "Please put the start time of autoreply in format 'mm/dd/yyyy 6:00:00 AM' set time should minus 11 hours from Hobart Time"
+        $endtime = read-host "Please put the start time of autoreply in format 'mm/dd/yyyy 6:00:00 AM' set time should minus 11 hours from Hobart Time"
+        Set-MailboxAutoReplyConfiguration -Identity $username -AutoReplyState "Scheduled" -StartTime "$starttime" -EndTime "$endtime" -ExternalMessage $message -ExternalAudience All -InternalMessage $null
         Write-Host "$username's Mailbox AutoReplay has been successfully enabled! " -ForegroundColor DarkGreen -BackgroundColor White
         "This is NOT a scheduled AutoReply, DON'T forget to Disable it when user comes back to office!" 
         Read-host "press 'ENTER' key to return to Main Menu"
